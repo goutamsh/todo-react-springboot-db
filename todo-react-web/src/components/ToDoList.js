@@ -1,5 +1,6 @@
 import React from 'react'
 import ToDo from './ToDo';
+import Table from 'react-bootstrap/Table';
 
 class ToDoList extends React.Component{
 
@@ -11,8 +12,13 @@ class ToDoList extends React.Component{
         }
         return(
         <div>
-            To Do List
-            {items}
+            <Table striped borderless hover>
+                <tbody>
+                
+                </tbody>
+                    {items}
+            </Table>
+            
             
         </div>
         );
