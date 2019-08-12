@@ -8,7 +8,7 @@ class ToDoList extends React.Component{
     render(){
         const items = [];
         for (const todo of this.props.todolist){
-            items.push(<ToDo key={todo.id} todo={todo} />)
+            items.push(<ToDo key={todo.id} todo={todo} deleteToDo={this.props.deleteToDo} />)
         }
         return(
         <div>

@@ -19,6 +19,7 @@ class ToDoApp extends React.Component {
 
         this.addToDoHandler = this.addToDoHandler.bind(this);
         this.fetchData = this.fetchData.bind(this);
+        this.deleteToDoHandler = this.deleteToDoHandler.bind(this);
     }
 
     addToDoHandler(newtodo){
@@ -38,6 +39,25 @@ class ToDoApp extends React.Component {
             
             this.fetchData();
     }
+
+    deleteToDoHandler(todo){
+
+        console.log("deleteToDoHandler "+todo);
+        fetch('http://localhost:8080/api/todos/'+todo.id, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                text: todo.text,
+                done: todo.done,
+            })
+            });
+            
+            this.fetchData();
+    }
+
     componentDidMount(){
         // const temptodo = [];
         // const todo1 = {
@@ -88,7 +108,7 @@ class ToDoApp extends React.Component {
                     <AddToDo addToDo={this.addToDoHandler} />
                 </Row>
                 <Row>
-                    <ToDoList todolist={this.state.todos}/>
+                    <ToDoList todolist={this.state.todos} deleteToDo={this.deleteToDoHandler}/>
                 </Row>
             </Container>
         );
