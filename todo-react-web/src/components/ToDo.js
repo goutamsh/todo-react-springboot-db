@@ -15,8 +15,9 @@ class ToDo extends React.Component{
         this.state = {show: false, todo:{}};
 
         this.handleClose = () => this.setState({show: false});
-    this.handleShow = this.handleShow.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.markAsDoneUndone = this.markAsDoneUndone.bind(this);
     }
 
     clearState(){
@@ -66,6 +67,13 @@ class ToDo extends React.Component{
         }
     }));
   }
+
+  markAsDoneUndone(todo, doneValue){
+    console.log("markAsDoneUndone ::"+todo);
+    console.log("markAsDoneUndone ::"+doneValue);
+    todo.done = doneValue;
+    this.props.editToDo(todo);
+  }
     render(){
         return(
             <>
@@ -74,12 +82,18 @@ class ToDo extends React.Component{
                 {this.props.todo.id}
             </td>
             <td>
-                {this.props.todo.text}
+              <p style={this.props.todo.done ? {textDecorationLine: 'line-through'}: {}}>
+                  {this.props.todo.text}
+              </p>
             </td>
             <td>
             <DropdownButton id="dropdown-basic-button" title="Action">
                     <Dropdown.Item eventKey="edit" onSelect={(eventKey, event) => this.editToDoPopUpHandler(eventKey, event, this.props.todo)}>Edit</Dropdown.Item>
-                    <Dropdown.Item eventKey="markAsDone">Mark As done</Dropdown.Item>
+                    {this.props.todo.done ?
+                        <Dropdown.Item eventKey="markAsUnDone" onSelect={(eventKey, event) => this.markAsDoneUndone(this.props.todo, false)}>Mark As Un-done</Dropdown.Item>
+                      :
+                        <Dropdown.Item eventKey="markAsDone" onSelect={(eventKey, event) => this.markAsDoneUndone(this.props.todo, true)}>Mark As done</Dropdown.Item>
+                    }                    
                     <Dropdown.Item eventKey="delete" onSelect={(eventKey, event) => this.deleteToDOHandler(eventKey, event, this.props.todo)}>Delete</Dropdown.Item>
             </DropdownButton>
             </td>

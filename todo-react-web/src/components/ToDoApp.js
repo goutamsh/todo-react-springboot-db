@@ -3,6 +3,7 @@ import Header from './Header';
 import ToDoList from './ToDoList';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import AddToDo from './AddToDo';
 
@@ -13,7 +14,6 @@ class ToDoApp extends React.Component {
         this.state = {
             todos:[]
         }
-
         this.addToDoHandler = this.addToDoHandler.bind(this);
         this.fetchData = this.fetchData.bind(this);
         this.deleteToDoHandler = this.deleteToDoHandler.bind(this);
@@ -21,9 +21,8 @@ class ToDoApp extends React.Component {
     }
 
     addToDoHandler(newtodo){
-
         console.log("addToDoHandler "+newtodo);
-        fetch('http://localhost:8080/api/todos', {
+        fetch('api/todos', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -33,15 +32,13 @@ class ToDoApp extends React.Component {
                 text: newtodo.text,
                 done: newtodo.done,
             })
-            });
+            }).then(() =>this.fetchData());        
             
-            this.fetchData();
     }
 
     deleteToDoHandler(todo){
-
         console.log("deleteToDoHandler "+todo);
-        fetch('http://localhost:8080/api/todos/'+todo.id, {
+        fetch('api/todos/'+todo.id, {
             method: 'DELETE',
             headers: {
                 'Accept': 'application/json',
@@ -51,15 +48,12 @@ class ToDoApp extends React.Component {
                 text: todo.text,
                 done: todo.done,
             })
-            });
-            
-            this.fetchData();
+            }).then(() =>this.fetchData())
     }
 
     editToDoHandler(todo){
-
         console.log("editToDoHandler "+todo);
-        fetch('http://localhost:8080/api/todos/'+todo.id, {
+        fetch('api/todos/'+todo.id, {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -70,9 +64,7 @@ class ToDoApp extends React.Component {
                 text: todo.text,
                 done: todo.done,
             })
-            });
-            
-            this.fetchData();
+            }).then(() =>this.fetchData());
     }
 
     componentDidMount(){
@@ -80,8 +72,7 @@ class ToDoApp extends React.Component {
     }
 
     fetchData(){
-
-        fetch('http://localhost:8080/api/todos')
+        fetch('api/todos')
         .then(res => res.json())
         .then((data) => {
           this.setState({ todos: data })
@@ -89,19 +80,23 @@ class ToDoApp extends React.Component {
         .catch(console.log);
     }
 
-
-
     render() {
         return (
             <Container>
                 <Row>
-                    <Header />
+                    <Col>
+                        <Header />
+                    </Col>
                 </Row>
                 <Row>
-                    <AddToDo addToDo={this.addToDoHandler} />
+                    <Col>
+                        <AddToDo addToDo={this.addToDoHandler} />
+                    </Col>
                 </Row>
                 <Row>
-                    <ToDoList todolist={this.state.todos} deleteToDo={this.deleteToDoHandler} editToDo={this.editToDoHandler}/>
+                    <Col>
+                        <ToDoList todolist={this.state.todos} deleteToDo={this.deleteToDoHandler} editToDo={this.editToDoHandler}/>
+                    </Col>
                 </Row>
             </Container>
         );
