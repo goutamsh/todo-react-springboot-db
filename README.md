@@ -23,3 +23,20 @@ curl -d '{"text":"to do text5","done":"true"}' -H "Content-Type: application/jso
 curl -X GET http://localhost:8080/api/todos
 ```
 
+
+Production build involving packaging react app in springboot can be achieved with
+
+```
+mvn install -Pprod
+```
+
+For Development environment the proxy is setup from react:
+
+for dev: http://localhost:3000
+
+for Prod: http://localhost:8080
+
+
+References:
+1. https://developer.okta.com/blog/2018/07/19/simple-crud-react-and-spring-boot
+2. https://github.com/oktadeveloper/okta-spring-boot-react-crud-example
